@@ -19,7 +19,7 @@ function Useradd() {
         crossDomain:false,
     };
     fetch(
-      `https://localhost:7240/api/Maillist`,requestOptions
+      `https://apimailtest.azurewebsites.net/api/Maillist`,requestOptions
     )
     .then(async response => {
         console.log( response.headers.get('content-type'))
@@ -50,9 +50,9 @@ function Useradd() {
             </div>
         </div>
         <div>
-            <div>Name {name}</div>
+            <div>Name {lastname}</div>
             <div>
-            <input type="text" value={name} text onChange={e => setName(e.target.value)} />
+            <input type="text" value={lastname} text onChange={e => setLastName(e.target.value)} />
             </div>
         </div>
         <div>

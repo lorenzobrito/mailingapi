@@ -2,43 +2,41 @@ import React, { useState, useEffect } from "react";
 import './App.css';
 import Useradd from './UserAdd'
 function App() {
-  const [users, setUsers] = useState([ {
-    "email": "email1@gmail.com",
-    "lastName": "A",
-    "name": "JuanA"
-  },
-  {
-    "email": "email4@gmail.com",
-    "lastName": "AA",
-    "name": "JuanAA"
-  },]);
+  const [users, setUsers] = useState([]);
   const [lastname, setLastName] = useState('');
   const searchUser=(e)=> {
     e.preventDefault();
-    var url ="";
-    if(lastname)
-    url=   `https://localhost:7240/api/Maillist/filter/${lastname}/Asc`
-    else  url=  `https://localhost:7240/api/Maillist/filter/`
-  fetch(
-   url
-  )
-  .then(async response => {
-    
-      const isJson = response.headers.get('content-type')?.includes('application/json');
-      const data = isJson && await response.json();
+  Search();
+}; 
+const Search =() =>{
+  var url ="";
+  if(lastname)
+  url=   `https://apimailtest.azurewebsites.net/api/Maillist/filter/${lastname}/Asc`
+  else  url=  `https://apimailtest.azurewebsites.net/api/Maillist/filter/`
+fetch(
+ url
+)
+.then(async response => {
+  
+    const isJson = response.headers.get('content-type')?.includes('application/json');
+    const data = isJson && await response.json();
 
-      // check for error response
-      if (!response.ok) {
-          // get error message from body or default to response status
-          const error = (data && data.message) || response.status;
-          return Promise.reject(error);
-      }
+    // check for error response
+    if (!response.ok) {
+        // get error message from body or default to response status
+        const error = (data && data.message) || response.status;
+        return Promise.reject(error);
+    }
 
-      setUsers(data);
+    setUsers(data);
 
-  })
-    .catch(error => alert(error));
-};
+})
+  .catch(error => alert(error));
+}
+useEffect(() => {
+  // Your code here
+  Search();
+}, []);
   return (
     <div className="App">
       <header>
